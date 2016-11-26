@@ -32,5 +32,22 @@ namespace Tests
                 Assert.True(user != null);    
             }
         }
+
+        [Theory]
+        [InlineData("don.browning@turner.com")]
+        [InlineData("don@noexist.com")]
+        public void TestUserPointCount(string email)
+        {
+            MapController c = new MapController();
+            var count = c.CountUserScore(email);
+
+            if (email == "don.browning@turner.com")
+            {
+                Assert.True(count == 6);
+            } else 
+            {
+                Assert.True(count == -1);
+            }
+        }
     }
 }

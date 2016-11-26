@@ -78,6 +78,25 @@ namespace maplib
             
         }
 
+        public int CountUserScore(string userEmail)
+        {
+            var user = FindUser(userEmail);
+            var total = -1;
+
+            if (user == null)
+            {
+                return -1;
+            } else
+            {
+                total = 0;
+                foreach (var item in user.Useractions)
+                {
+                    total += item.Actions.Points;
+                }
+                return total;
+            }
+        }
+
         public void AddUser(string emailAddress) 
         {
             using (var db = new mapContext())

@@ -37,6 +37,9 @@ namespace hwapp
             var user = controller.FindUser("don.browning@turner.com");
             Console.WriteLine("User: " + user.Email);
 
+            var count = controller.CountUserScore("donwb@outlook.com");
+            Console.WriteLine("Total: " + count);
+
             // controller.AddUser("donwb@outlook.com");
 
             // controller.AddItem("donwb@outlook.com");
