@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace maplib
 {
     public class MapController 
     {
-        public void AllUserActions() 
+        public List<Useractions> AllUserActions() 
         {
             using(var db = new mapContext())
             {
@@ -15,10 +16,8 @@ namespace maplib
                 .Include(mu => mu.User)
                 .Include(act => act.Actions)
                 .ToList();
-                
-                foreach (var u in users) {
-                    Console.WriteLine(u.User.Email + " ----- " + u.Actions.Action);
-                }
+
+                return users;
             }
         }
 
@@ -29,8 +28,6 @@ namespace maplib
                 var mapUsers = ctx.Mapuser
                 .Include(ua => ua.Useractions)
                 .ToList();
-
-                
 
                 foreach(var u in mapUsers)
                 {
@@ -50,24 +47,35 @@ namespace maplib
             }
         }
 
-        public void JustMe() 
+        public Mapuser FindUser(string userEmail) 
         {
             using(var db = new mapContext())
             {
-                // Just me
-                var me = db.Mapuser
-                .Include(ua => ua.Useractions)
-                .Single(u => u.Email.ToString() == "don.browning@turner.com");
-                
-                Console.WriteLine(me.Email);
-                foreach (var a in me.Useractions) {
-                    db.Entry(a)
-                    .Reference(act => act.Actions)
-                    .Load();
-                    
-                    Console.WriteLine("\t" + a.Actions.Action);
+                try
+                {
+                    var me = db.Mapuser
+                    .Include(ua => ua.Useractions)
+                    .Single(u => u.Email.ToString() == userEmail);
+
+                    if (me != null)
+                    {
+                        foreach (var a in me.Useractions) 
+                        {
+                            db.Entry(a)
+                            .Reference(act => act.Actions)
+                            .Load();
+                        }
+                    }
+
+                    return me;
                 }
+                catch (System.Exception)
+                {
+                    return null;
+                }
+                
             }
+            
         }
 
         public void AddUser(string emailAddress) 

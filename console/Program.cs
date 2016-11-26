@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using maplib;
 
 namespace hwapp
@@ -24,15 +25,21 @@ namespace hwapp
 
             
 
-            //controller.AllUserActions();
+            var users = controller.AllUserActions();
+            foreach (var u in users) 
+            {
+                Console.WriteLine(u.User.Email + " ----- " + u.Actions.Action);
+            }
+            Console.WriteLine("total: " + users.Count);
 
-            //controller.ViaMapUsers();
+            // controller.ViaMapUsers();
 
-            //controller.JustMe();
+            var user = controller.FindUser("don.browning@turner.com");
+            Console.WriteLine("User: " + user.Email);
 
-            //controller.AddUser("donwb@outlook.com");
+            // controller.AddUser("donwb@outlook.com");
 
-            controller.AddItem("donwb@outlook.com");
+            // controller.AddItem("donwb@outlook.com");
         
             
             Console.WriteLine("Done...");
