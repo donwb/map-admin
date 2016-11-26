@@ -70,40 +70,47 @@ namespace maplib
             }
         }
 
-        public void AddUser(mapContext db, string emailAddress) 
+        public void AddUser(string emailAddress) 
         {
-
-            Mapuser mu = new Mapuser{
-                Email = emailAddress};
+            using (var db = new mapContext())
+            {
+                Mapuser mu = new Mapuser{
+                    Email = emailAddress};
                 db.Mapuser.Add(mu);
                 db.SaveChanges();
 
                 Console.WriteLine(mu.Id + " " + mu.Email);
+            }
+            
         }
 
-        public void AddItem(mapContext db, string who) 
+        public void AddItem(string who) 
         {
-            // get the user
-            var me = db.Mapuser
-            .Single(u => u.Email.ToString() == who);
+            using (var db = new mapContext())
+            {
+                // get the user
+                var me = db.Mapuser
+                .Single(u => u.Email.ToString() == who);
 
-            // get the first action
-            var action = db.Actions
-            .Single(i => i.Id == 1);
+                // get the first action
+                var action = db.Actions
+                .Single(i => i.Id == 1);
 
-            // New up an object
-            var ua = new Useractions();
-            ua.Actions = action;
-            ua.User = me;
-            ua.Actiondate = DateTime.Now;
+                // New up an object
+                var ua = new Useractions();
+                ua.Actions = action;
+                ua.User = me;
+                ua.Actiondate = DateTime.Now;
 
-            // Save it
-            db.Useractions.Add(ua);
-            db.SaveChanges();
+                // Save it
+                db.Useractions.Add(ua);
+                db.SaveChanges();
 
-            // if it returns an ID, we're good
-            Console.WriteLine("Done: " + ua.Id);
+                // if it returns an ID, we're good
+                Console.WriteLine("Done: " + ua.Id);
 
+            }
+            
         }
     }
 }

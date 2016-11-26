@@ -24,15 +24,15 @@ namespace hwapp
 
             
 
-            controller.AllUserActions();
+            //controller.AllUserActions();
 
-            controller.ViaMapUsers();
+            //controller.ViaMapUsers();
 
-            controller.JustMe();
+            //controller.JustMe();
 
-            // AddUser(db, "traci@mariettahometeam.com");
+            //controller.AddUser("donwb@outlook.com");
 
-            // AddItem(db, "traci@mariettahometeam.com");
+            controller.AddItem("donwb@outlook.com");
         
             
             Console.WriteLine("Done...");
