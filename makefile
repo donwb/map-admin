@@ -1,5 +1,3 @@
-export DB_USER := mapuser
-export DB_PASSWORD := MapProgram!
 
 all:
 	cd api/; dotnet run
